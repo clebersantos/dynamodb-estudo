@@ -1,7 +1,7 @@
 (ns dynamodb-estudo.components.server
   (:require [io.pedestal.http :as http]
             [io.pedestal.interceptor :as interceptor]
-            [dynamodb-estudo.endpoints :as endpoints]
+            [dynamodb-estudo.diplomat.http-server :as diplomat.http-server]
             [com.stuartsierra.component :as component]))
 
 
@@ -12,7 +12,7 @@
   )
 
 (defn service-map [database]
-  (-> {::http/routes endpoints/routes
+  (-> {::http/routes diplomat.http-server/routes
        ::http/type   :jetty
        ::http/port   8890}
       http/default-interceptors
