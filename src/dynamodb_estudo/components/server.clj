@@ -10,12 +10,13 @@
                             :enter (fn [context]
                                      (update context :request assoc :database database))})
   )
-
+; -> é uma macro, pipeline de execucao 1 traço é thread first (pega o resultado e joga pra frente)
+; cria o mapa e passa para a proxima funcao da pipeline  http/default-interceptors
 (defn service-map [database]
   (-> {::http/routes diplomat.http-server/routes
        ::http/type   :jetty
        ::http/port   8890}
-      http/default-interceptors
+      (http/default-interceptors )
       (update ::http/interceptors conj http/json-body)
       (update ::http/interceptors conj (db-interceptor database))))
 
